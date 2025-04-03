@@ -62,10 +62,10 @@ def recognize_speech():
         try:
             return recognizer.recognize_google(audio, language="en-US").lower()
         except sr.UnknownValueError:
-            print("[🟡 Couldn't understand audio]")
+            print("[Couldn't understand audio]")
             return ""
         except sr.RequestError:
-            print("[🔴 Check your internet connection]")
+            speak("[Check your internet connection]")
             return ""
         return ""
 
@@ -157,7 +157,7 @@ def jarvis():
         # Check for stop command
         if "stop" in command and is_active:
             is_active = False
-            speak("Going silent. Say 'hey jarvis' to wake me up again.")
+            speak("Going silent. Say 'Jarvis' to wake me up again.")
             continue
 
          # Process commands only when active
