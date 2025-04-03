@@ -28,7 +28,7 @@ def speak(text):
 def check_for_enter():
     """Check for Enter key press to stop listening"""
     global stop_listening
-    input("\n[⏹ Press Enter to stop listening...]")  # Wait for Enter key press
+    input("\n[Press Enter to stop listening...]")  # Wait for Enter key press
     stop_listening = True
 
 
@@ -38,7 +38,7 @@ def recognize_speech():
     recognizer = sr.Recognizer()
 
     with sr.Microphone() as source:
-        print("\n[ Listening...] (Press Enter to stop)")
+        print("\n[Listening...] (Press Enter to stop)")
         if not is_active:
             print("[Waiting for 'Jarvis']")
         recognizer.adjust_for_ambient_noise(source, duration=1)
@@ -60,27 +60,26 @@ def recognize_speech():
         stop_listening = False
 
         try:
-            return recognizer.recognize_google(audio, language="en-in").lower()
+            return recognizer.recognize_google(audio, language="en-US").lower()
         except sr.UnknownValueError:
             print("[🟡 Couldn't understand audio]")
             return ""
         except sr.RequestError:
-            speak("[Google API request failed. Check your internet connection]")
+            print("[🔴 Check your internet connection]")
             return ""
         return ""
+
 
 def greet_user():
     """Greet the user based on the time of day"""
     hour = datetime.datetime.now().hour
     if hour < 12:
         speak("Good morning!")
-
     elif hour < 18:
         speak("Good afternoon!")
     else:
         speak("Good evening!")
     speak("How can I assist you today?")
-
 
 
 def get_time():
@@ -127,6 +126,7 @@ def open_websitess(website_namess):
     speak(f"Opening {website_namess}")
 
 
+
 def open_url(url_id):
     """Open a website in the default browser"""
     url = f"{url_id}"
@@ -134,8 +134,9 @@ def open_url(url_id):
     speak("Opening")
 
 
+
 def jarvis():
-    print("Hello! I am Jarvis, your smart assistant. Say 'Jarvis' to activate me")
+    """Main function with wake word 'hey jarvis' and stop command"""
     global is_active
     speak("Hello! I am Jarvis, your smart assistant. Say 'Jarvis' to activate me.")
 
@@ -156,10 +157,10 @@ def jarvis():
         # Check for stop command
         if "stop" in command and is_active:
             is_active = False
-            speak("Going silent. Say 'Jarvis' to wake me up again.")
+            speak("Going silent. Say 'hey jarvis' to wake me up again.")
             continue
 
-        # Process commands only when active
+         # Process commands only when active
         if is_active:
             if command in ["exit", "quit"]:
                 speak("Goodbye! Have a nice day.")
@@ -196,7 +197,7 @@ def jarvis():
                 open_website("github")
             elif "open gmail" in command:
                 open_website("gmail")
-            elif "play achcha chalta hun on youtube" in command:
+            elif "play achcha chalta hun" in command:
                 open_url("https://youtu.be/bzSTpdcs-EI?si=x-h5vgO5dBzuO_FN")
             elif "play national anthem" in command:
                 open_url("https://youtu.be/HtMF973tXIY?si=YsvGyzKAegkb5kTC")
@@ -223,5 +224,6 @@ def jarvis():
             print("[Waiting for activation...]")
 
 
-if __name__ == "_main_":
+
+if __name__ == "__main__":
     jarvis()
